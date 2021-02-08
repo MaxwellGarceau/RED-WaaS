@@ -203,3 +203,4 @@ class Red_Connection_Fields {
   }
 
 }
+Red_Connection_Fields::init();

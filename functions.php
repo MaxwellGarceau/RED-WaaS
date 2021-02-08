@@ -97,6 +97,16 @@ function custom_image_sizes($sizes) {
 	return $newsizes;
 }
 
+if ( ! function_exists( 'write_log' ) ) {
+  function write_log ( $log ) {
+	  if ( is_array( $log ) || is_object( $log ) ) {
+	    error_log( print_r( $log, true ) );
+	  } else {
+	    error_log( $log );
+	  }
+  }
+}
+
 /**
  * Set the content width in pixels, based on the theme's design and stylesheet.
  *
@@ -131,60 +141,16 @@ add_action( 'widgets_init', 'red_underscores_widgets_init' );
  * Enqueue scripts and styles.
  */
 
-// Add unsemantic grid system with support for IE7+
-function add_unsemantic_grid () {
-    // html5 shiv for IE
-    echo '<!--[if lt IE 9]>';
-    echo '<script src="'.get_template_directory_uri() . '/unsemantic/scripts/html5.js"></script>';
-    echo '<![endif]-->';
-
-    // css reset
-    echo '<link rel="stylesheet" href="'.get_template_directory_uri() . '/unsemantic/stylesheets/reset.css" />';
-
-    // unsemantic grid for all non-IE browsers and for certain IEs
-    echo '<!--[if (gt IE 8) | (IEMobile)]><!-->';
-    echo '<link rel="stylesheet" href="'.get_template_directory_uri() . '/unsemantic/stylesheets/unsemantic-grid-responsive-tablet.css" />';
-    echo '<!--<![endif]-->';
-
-    // unsemantic grid for IE
-    echo '<!--[if (lt IE 9) & (!IEMobile)]>';
-    echo '<link rel="stylesheet" href="'.get_template_directory_uri() . '/unsemantic/stylesheets/ie.css" />';
-    echo '<![endif]-->';
+function red_underscores_enqueue_first() {
+	wp_enqueue_style( 'reset', get_template_directory_uri() . '/css/reset.css' , array(), filemtime( get_template_directory() . '/css/reset.css' ) );
 }
-add_action('wp_head', 'add_unsemantic_grid', 5);
-
-/**
- * Dynamic variables from the theme settings
- */
-function red_print_style_variables() {
-	/* Variables */
-
-	// Located in /inc/class-red-style-variables.php (to be able to call them from anywhere)
-	$main = Red_Style_Variables::get_main();
-	$secondary = Red_Style_Variables::get_secondary();
-	$highlight = Red_Style_Variables::get_highlight();
-	$highlight_hover = Red_Style_Variables::get_highlight_hover();
-	$text_color = Red_Style_Variables::get_text_color();
-	$dark = Red_Style_Variables::get_dark();
-	?>
-
-	<style id="red-style-variables">
-	:root { /* usage    color: var(--highlight); */
-		--main: <?php echo $main ?>;
-		--secondary: <?php echo $secondary ?>;
-			--highlight: <?php echo $highlight ?>;
-			--highlight-hover: <?php echo $highlight_hover ?>;
-			--text-color: <?php echo $text_color ?>;
-			--dark: <?php echo $dark ?>;
-	}
-	</style>
-
-	<?php
-}
-add_action( 'wp_head', 'red_print_style_variables' );
+add_action( 'wp_enqueue_scripts', 'red_underscores_enqueue_first', 1 );
 
 function red_underscores_scripts() {
-  wp_enqueue_style( 'red_underscores-style', get_stylesheet_uri(), array(), filemtime(get_template_directory()) );
+
+	wp_enqueue_style( 'load-google-fonts', 'https://fonts.googleapis.com/css?family=Montserrat:ital,wght@0,400;1,400;1,500;1,600;1,700;1,800' );
+
+  wp_enqueue_style( 'red_underscores-style', get_stylesheet_uri(), array( 'reset' ), filemtime( get_template_directory() . '/style.css' ) );
 
 	wp_enqueue_script( 'red_underscores-navigation', get_template_directory_uri() . '/js/navigation.js', array(), '20120206', true );
 
@@ -205,7 +171,6 @@ add_action( 'wp_enqueue_scripts', 'red_underscores_scripts' );
 /**
  * Implement the Custom Header feature.
  */
-//require get_template_directory() . '/inc/custom-header.php';
 
 /**
  * Custom template tags for this theme.
@@ -238,10 +203,24 @@ require get_template_directory() . '/inc/class-red-style-variables.php';
 require get_template_directory() . '/inc/class-red-automatic-colors.php';
 
 /**
+ * Red Automation Widgets
+ */
+require get_template_directory() . '/inc/class-red-automation-widgets.php';
+
+/**
  * Custom Connection Fields
  */
 require get_template_directory() . '/inc/beaver-builder/class-red-connection-fields.php';
-Red_Connection_Fields::init(); // Loads hooks
+
+/**
+ * Template Automation
+ */
+require get_template_directory() . '/inc/class-red-template-automation.php';
+
+/**
+ * Template Automation
+ */
+require get_template_directory() . '/inc/class-red-admin-ui.php';
 
 /**
  * Favicon
@@ -249,29 +228,11 @@ Red_Connection_Fields::init(); // Loads hooks
 require get_template_directory() . '/inc/favicon.php';
 
 /**
- * Dynamic Styles
- */
-require get_template_directory() . '/inc/dynamic-styles.php';
-
-/**
  * Social Icons
  */
 require get_template_directory() . '/inc/social-icons.php';
 
-/**
- * Custom functions that act independently of the theme templates.
- */
-//require get_template_directory() . '/inc/extras.php';
 
-/**
- * Customizer additions.
- */
-//require get_template_directory() . '/inc/customizer.php';
-
-/**
- * Load Jetpack compatibility file.
- */
-//require get_template_directory() . '/inc/jetpack.php';
 
 function show_post_navigation() {
 	// Don't print empty markup if there's nowhere to navigate.
@@ -315,29 +276,6 @@ function wp_pagenavi() {
  	if ($max > 1) echo '</div>
 	';
 }
-
-wp_enqueue_style( 'load-google-fonts', 'https://fonts.googleapis.com/css?family=Montserrat:ital,wght@0,400;1,400;1,500;1,600;1,700;1,800' );
-
-
-// https://www.advancedcustomfields.com/resources/acf_add_options_page/
-add_action('acf/init', 'my_acf_op_init');
-function my_acf_op_init() {
-
-    // Check function exists.
-    if( function_exists('acf_add_options_page') ) {
-
-        // Register options page.
-        $option_page = acf_add_options_page(array(
-            'page_title'    => __('Theme Settings'),
-            'menu_title'    => __('Theme Settings'),
-            'menu_slug'     => 'theme-settings',
-            'capability'    => 'edit_posts',
-            'redirect'      => false,
-            'position'      => 31
-        ));
-    }
-}
-
 
 // Redirect tags, search, and category requests to homepage
 function red_underscores_redirect() {
