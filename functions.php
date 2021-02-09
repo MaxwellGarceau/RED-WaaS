@@ -223,6 +223,11 @@ require get_template_directory() . '/inc/class-red-template-automation.php';
 require get_template_directory() . '/inc/class-red-admin-ui.php';
 
 /**
+ * Login page
+ */
+require get_template_directory() . '/inc/class-red-login.php';
+
+/**
  * Favicon
  */
 require get_template_directory() . '/inc/favicon.php';
