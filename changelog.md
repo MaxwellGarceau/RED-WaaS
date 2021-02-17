@@ -21,3 +21,8 @@ Tested up to: 5.4.1
 #### 1.0.2
 -Imported custom functionality for Beaver Builder Module "Icon Group" from Oasis
 -Added Business Hours admin options field
+
+#### 1.0.3
+-Added template selector option
+-Automatically disable header and footer themer layouts of inactive templates
+-Added spot for Yelp in admin options
