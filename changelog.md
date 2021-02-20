@@ -26,3 +26,6 @@ Tested up to: 5.4.1
 -Added template selector option
 -Automatically disable header and footer themer layouts of inactive templates
 -Added spot for Yelp in admin options
+
+#### 1.0.4
+-Added Red_Install class which auto deletes the Main WP and Red WaaS Demo plugin when not on the demo site.

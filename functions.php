@@ -238,6 +238,11 @@ require get_template_directory() . '/inc/class-red-admin-ui.php';
 require get_template_directory() . '/inc/class-red-login.php';
 
 /**
+ * Initialize Website on a new installation
+ */
+require get_template_directory() . '/inc/class-red-install.php';
+
+/**
  * Favicon
  */
 require get_template_directory() . '/inc/favicon.php';

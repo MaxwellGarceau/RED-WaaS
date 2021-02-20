@@ -33,6 +33,7 @@ class Red_Login {
         body.login div#login h1 a {
           background-image: url(<?php echo $site_logo_url; ?>);
           background-size: contain;
+          background-position: center;
           width: 320px;
           height: 320px;
         }
