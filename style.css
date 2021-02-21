@@ -4,7 +4,7 @@ Theme URI: https://redearthdesign.com/
 Author: Red Earth Design
 Author URI: https://redearthdesign.com/
 Description: Description
-Version: 1.0.4
+Version: 1.0.5
 Text Domain: red-earth-design
 Tags:
 */
@@ -34,9 +34,10 @@ Tags:
 	## Galleries
 	## Unsemantic Framework
 # Misc
+# Beaver Builder
 --------------------------------------------------------------*/
 
-/* CSS Variables are located in the /ootp/style-variables.php file */
+/* CSS Variables are dynamically loaded from the /inc/class-red-style-variables.php file */
 
 /*--------------------------------------------------------------
 # Normalize
@@ -1027,4 +1028,24 @@ footer .bbb {
 }
 .p-no-top-margin-first-child p:first-child {
 	margin-top: 0;
+}
+
+/*--------------------------------------------------------------
+# Beaver Builder
+--------------------------------------------------------------*/
+/**
+ * Hides the ability to edit current page in beaver builder from the admin toolbar.
+ * Prompts user to edit Themer Layouts.
+ */
+#wpadminbar #wp-admin-bar-fl-theme-builder-frontend-edit-link {
+	display: none;
+}
+#wpadminbar #wp-admin-bar-fl-builder-frontend-edit-link > a.ab-item {
+	pointer-events: none;
+}
+#wpadminbar #wp-admin-bar-fl-builder-frontend-edit-link {
+	cursor: pointer !important;
+}
+#wpadminbar #wp-admin-bar-fl-builder-frontend-edit-link-default {
+	padding: 0 0 6px;
 }

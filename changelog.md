@@ -29,3 +29,6 @@ Tested up to: 5.4.1
 
 #### 1.0.4
 -Added Red_Install class which auto deletes the Main WP and Red WaaS Demo plugin when not on the demo site.
+
+#### 1.0.5
+-Added some CSS to hide default Beaver Builder edit page. This directs a user to edit the themer layouts instead.
