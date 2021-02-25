@@ -4,7 +4,7 @@ Theme URI: https://redearthdesign.com/
 Author: Red Earth Design
 Author URI: https://redearthdesign.com/
 Description: Description
-Version: 1.0.5
+Version: 1.0.6
 Text Domain: red-earth-design
 Tags:
 */
@@ -524,7 +524,9 @@ header {
 a {
 	color: var(--highlight);
   text-decoration:underline;
+	word-break: break-word;
 }
+
 header a {
   text-decoration: none;
 }
@@ -671,10 +673,22 @@ a:active {
 .fl-menu-mobile-toggle {
     padding: 0 !important;
 }
+
+/**
+ * Add margin to hamburger menu icon so it doesn't bump with label
+ */
+.fl-menu-mobile-toggle.hamburger .svg-container,
+.fl-menu-mobile-toggle.hamburger-label .svg-container {
+	margin: 10px;
+}
+.fl-menu-responsive-toggle-mobile {
+	margin-left: -10px;
+}
 .fl-menu .fl-menu-mobile-toggle.hamburger .fl-menu-mobile-toggle-label,
 .fl-menu .fl-menu-mobile-toggle.hamburger-label .fl-menu-mobile-toggle-label {
-    margin-left:10px;
+    margin-left: 0;
 }
+
 
 
 /*--------------------------------------------------------------
@@ -803,7 +817,7 @@ header {
 .logo-absolute .fl-photo {
     position:relative;
 }
-@media screen and (min-width: 767px) {
+@media screen and (min-width: 769px) {
     .logo-absolute .fl-photo {
         position: absolute;
         left: 0;
@@ -1030,6 +1044,13 @@ footer .bbb {
 	margin-top: 0;
 }
 
+@media (max-width: 767px) {
+	.break-word-mobile {
+		word-break: break-word;
+		hyphens: auto;
+	}
+}
+
 /*--------------------------------------------------------------
 # Beaver Builder
 --------------------------------------------------------------*/
@@ -1037,15 +1058,15 @@ footer .bbb {
  * Hides the ability to edit current page in beaver builder from the admin toolbar.
  * Prompts user to edit Themer Layouts.
  */
-#wpadminbar #wp-admin-bar-fl-theme-builder-frontend-edit-link {
+body:not(.fl-theme-layout-template-default) #wpadminbar #wp-admin-bar-fl-theme-builder-frontend-edit-link {
 	display: none;
 }
-#wpadminbar #wp-admin-bar-fl-builder-frontend-edit-link > a.ab-item {
+body:not(.fl-theme-layout-template-default) #wpadminbar #wp-admin-bar-fl-builder-frontend-edit-link > a.ab-item {
 	pointer-events: none;
 }
-#wpadminbar #wp-admin-bar-fl-builder-frontend-edit-link {
+body:not(.fl-theme-layout-template-default) #wpadminbar #wp-admin-bar-fl-builder-frontend-edit-link {
 	cursor: pointer !important;
 }
-#wpadminbar #wp-admin-bar-fl-builder-frontend-edit-link-default {
+body:not(.fl-theme-layout-template-default) #wpadminbar #wp-admin-bar-fl-builder-frontend-edit-link-default {
 	padding: 0 0 6px;
 }

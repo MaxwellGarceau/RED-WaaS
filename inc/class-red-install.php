@@ -3,7 +3,7 @@
 class Red_Install {
 
   public static function init() {
-    add_action( 'init', array( __CLASS__, 'remove_demo_specific_code' ) );
+    add_action( 'init', array( __CLASS__, 'remove_demo_specific_code' ), 999999 );
   }
 
   public static function remove_demo_specific_code() {
@@ -18,7 +18,7 @@ class Red_Install {
       'mainwp/mainwp.php',
     );
     deactivate_plugins( $plugins_to_delete );
-    delete_plugins( $plugins_to_delete );
+    // delete_plugins( $plugins_to_delete );
   }
 }
 Red_Install::init();
