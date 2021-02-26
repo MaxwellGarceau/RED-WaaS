@@ -203,6 +203,11 @@ require get_template_directory() . '/inc/beaver-builder/class-red-add-theme-supp
 require get_template_directory() . '/inc/class-red-helper.php';
 
 /**
+ * Red Ajax
+ */
+require get_template_directory() . '/inc/red-ajax/class-red-ajax.php';
+
+/**
  * Red Automatic Colors
  */
 require get_template_directory() . '/inc/class-red-style-variables.php';
@@ -241,6 +246,11 @@ require get_template_directory() . '/inc/class-red-login.php';
  * Initialize Website on a new installation
  */
 require get_template_directory() . '/inc/class-red-install.php';
+
+/**
+ * ACF Options Customizations
+ */
+require get_template_directory() . '/inc/class-red-acf-options.php';
 
 /**
  * Favicon
