@@ -11,19 +11,26 @@ class Red_ACF_Options {
    * Add button to remove demo plugins
    */
    public static function init_ajax() {
-     $args = self::uninstall_demo_plugins_ajax_args();
-     new Red_Ajax( $args ); // Sets up the ajax handles
+     if ( class_exists( 'Red_Ajax' ) ) {
+       if ( class_exists( 'Red_Waas_Demo_Uninstall' ) ) {
+         $args = self::uninstall_demo_plugins_ajax_args();
+         new Red_Ajax( $args ); // Sets up the ajax handles
+       }
 
-     if ( class_exists( 'Red_Waas_Demo_Add_Site_To_WP_Main' ) ) {
-       $args = self::add_site_to_main_wp_ajax_args();
-       new Red_Ajax( $args ); // Sets up the ajax handles
+       if ( class_exists( 'Red_Waas_Demo_Add_Site_To_WP_Main' ) ) {
+         $args = self::add_site_to_main_wp_ajax_args();
+         new Red_Ajax( $args ); // Sets up the ajax handles
+       }
+     } else {
+       /* Error Message */
+       write_log( 'Red_Ajax not available in ' . dirname( __FILE__ ) );
      }
    }
 
    public static function uninstall_demo_plugins_ajax_args() {
      $action = 'remove_demo_specific_code'; // name that goes on all ajax handlers, also the nonce handler
      return array(
-           'callback' => array( new Red_Install, $action ),
+           'callback' => array( new Red_Waas_Demo_Uninstall, $action ),
            'action' => $action,
            'nonce' => wp_create_nonce( $action ),
          );
@@ -39,9 +46,12 @@ class Red_ACF_Options {
    }
 
    public static function render_dev_ops_content() {
+
      /* Uninstall Demo Plugins */
-     $args = self::uninstall_demo_plugins_ajax_args();
-     echo '<a class="button button-primary button-large" href="' . admin_url( 'admin-ajax.php?action=' . $args['action'] . '&nonce=' . $args['nonce'] ) . '">Uninstall Demo Plugins</a>';
+     if ( class_exists( 'Red_Waas_Demo_Uninstall' ) ) {
+       $args = self::uninstall_demo_plugins_ajax_args();
+       echo '<a class="button button-primary button-large" href="' . admin_url( 'admin-ajax.php?action=' . $args['action'] . '&nonce=' . $args['nonce'] ) . '">Uninstall Demo Plugins</a>';
+     }
 
      /* Add site to Main WP */
      if ( class_exists( 'Red_Waas_Demo_Add_Site_To_WP_Main' ) ) {

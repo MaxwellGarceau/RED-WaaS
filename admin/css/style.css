@@ -1,0 +1,4 @@
+/* Add space between adjacent buttons in Dev Ops admin section */
+#dev-ops .inside .button + .button {
+  margin-left: 10px;
+}

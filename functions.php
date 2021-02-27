@@ -5,6 +5,13 @@
  * @package red_underscores
  */
 
+/**
+ * Constant used to test development functionality. Default to false.
+ */
+if ( ! defined( 'RED_IS_TEST_MODE' ) ) {
+	define( 'RED_IS_TEST_MODE', false );
+}
+
 if ( ! function_exists( 'red_underscores_setup' ) ) :
 /**
  * Sets up theme defaults and registers support for various WordPress features.
@@ -182,6 +189,24 @@ $myUpdateChecker = Puc_v4_Factory::buildUpdateChecker(
  * Implement the Custom Header feature.
  */
 
+/******************************************
+ * Admin
+ ******************************************/
+
+/**
+ * Template Automation
+ */
+require get_template_directory() . '/admin/class-red-admin-ui.php';
+
+ /**
+ * ACF Options Customizations
+ */
+require get_template_directory() . '/admin/class-red-acf-options.php';
+
+/******************************************
+ * Theme
+ ******************************************/
+
 /**
  * Custom template tags for this theme.
  */
@@ -233,24 +258,22 @@ require get_template_directory() . '/inc/beaver-builder/class-red-connection-fie
 require get_template_directory() . '/inc/class-red-template-automation.php';
 
 /**
- * Template Automation
- */
-require get_template_directory() . '/inc/class-red-admin-ui.php';
-
-/**
  * Login page
  */
 require get_template_directory() . '/inc/class-red-login.php';
 
-/**
- * Initialize Website on a new installation
- */
-require get_template_directory() . '/inc/class-red-install.php';
+/******************************************
+ * Demo Site Specific
+ ******************************************/
 
 /**
- * ACF Options Customizations
+ * Includes all demo site specific code
  */
-require get_template_directory() . '/inc/class-red-acf-options.php';
+require get_template_directory() . '/red-waas-demo/red-waas-demo.php';
+
+/******************************************
+ * Misc
+ ******************************************/
 
 /**
  * Favicon
