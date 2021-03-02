@@ -45,7 +45,7 @@ class Red_Automatic_Colors {
     $g = hexdec( $htmlCode[2] . $htmlCode[3] );
     $b = hexdec( $htmlCode[4] . $htmlCode[5] );
 
-    return $r . $g . $b;
+    // return $r . $g . $b;
 
     return $b + ( $g << 0x8 ) + ( $r << 0x10 );
   }

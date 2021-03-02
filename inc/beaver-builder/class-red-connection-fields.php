@@ -8,6 +8,14 @@ class Red_Connection_Fields {
   public static function init() {
     add_action( 'fl_page_data_add_properties', 'Red_Connection_Fields::red_add_red_connection_group' );
     add_action( 'fl_page_data_add_properties', 'Red_Connection_Fields::register_custom_connection_fields' );
+    add_filter( 'fl_builder_register_settings_form', array( __CLASS__, 'add_connection_field_to_image_width' ), 10, 2 );
+  }
+
+  public static function add_connection_field_to_image_width( $form, $slug ) {
+    if ( $slug == 'photo' ) {
+      $form['style']['sections']['general']['fields']['width']['connections'] = array( 'string' );
+    }
+    return $form;
   }
 
   /**
@@ -89,7 +97,7 @@ class Red_Connection_Fields {
          'getter'  => 'Red_Connection_Fields::red_highlight_dynamic_ld',
      ) );
 
-     /* Highlight Text Color Hover - dynamically chooses light or dark color for a background set to Highlight Text Color Hover */
+     /* Highlight Text Color Hover - dynamically chooses light or dark color for a background set to Highlight Cover Hover */
      FLPageData::add_post_property( 'red_highlight_hover_dynamic_ld', array(
          'label'   => 'Color - Highlight Hover (Dynamic Light or Dark Color)',
          'group'   => 'dynamic_ld',
@@ -127,6 +135,13 @@ class Red_Connection_Fields {
          'group'   => 'red',
          'type'    => 'html',
          'getter'  => 'Red_Connection_Fields::red_google_maps_embed',
+     ) );
+
+     FLPageData::add_post_property( 'red_logo_width', array(
+         'label'   => 'Logo Width',
+         'group'   => 'red',
+         'type'    => 'string',
+         'getter'  => 'Red_Connection_Fields::red_logo_width',
      ) );
   }
 
@@ -200,6 +215,13 @@ class Red_Connection_Fields {
   public static function red_google_maps_embed() {
     $address = get_field( 'locations', 'options' );
     return Red_Helper::get_google_map_iframe_embed( $address );
+  }
+
+  public static function red_logo_width() {
+    $site_logo_id = get_field( 'site_logo', 'options' );
+    $attachement = wp_get_attachment_metadata( $site_logo_id );
+    $width = $attachement['width'] / 2; // Divide by 2 because logo is uploaded @2x
+    return (string) $width;
   }
 
 }

@@ -21,6 +21,11 @@ class Red_ACF_Options {
          $args = self::add_site_to_main_wp_ajax_args();
          new Red_Ajax( $args ); // Sets up the ajax handles
        }
+
+       // if ( class_exists( 'Red_Image_Optimization' ) ) {
+       //   $args = self::resize_logo_to_2x_wp_ajax_args();
+       //   new Red_Ajax( $args ); // Sets up the ajax handles
+       // }
      } else {
        /* Error Message */
        write_log( 'Red_Ajax not available in ' . dirname( __FILE__ ) );
@@ -45,7 +50,17 @@ class Red_ACF_Options {
          );
    }
 
+   // public static function resize_logo_to_2x_wp_ajax_args() {
+   //   $action = 'resize_logo_to_2x'; // name that goes on all ajax handlers, also the nonce handler
+   //   return array(
+   //         'callback' => array( new Red_ACF_Validation, $action ),
+   //         'action' => $action,
+   //         'nonce' => wp_create_nonce( $action ),
+   //       );
+   // }
+
    public static function render_dev_ops_content() {
+     ob_start();
 
      /* Uninstall Demo Plugins */
      if ( class_exists( 'Red_Waas_Demo_Uninstall' ) ) {
@@ -58,6 +73,21 @@ class Red_ACF_Options {
        $args = self::add_site_to_main_wp_ajax_args();
        echo '<a class="button button-primary button-large" href="' . admin_url( 'admin-ajax.php?action=' . $args['action'] . '&nonce=' . $args['nonce'] ) . '">Add Site to Main WP</a>';
      }
+
+     // /* Resize Image Logo to @2x */
+     // if ( class_exists( 'Red_Image_Optimization' ) ) {
+     //   $args = self::resize_logo_to_2x_wp_ajax_args();
+     //   echo '<a class="button button-primary button-large" href="' . admin_url( 'admin-ajax.php?action=' . $args['action'] . '&nonce=' . $args['nonce'] ) . '">Resize Logo to @2x (currently hardcoded to 412px)</a>';
+     // }
+
+     $output = ob_get_clean();
+
+     /* No output fallback message */
+     if ( $output == '' ) {
+       $output = 'These options are only available when not on the demo site.';
+     }
+
+     echo $output;
    }
 
    public static function dev_ops_meta_box() {

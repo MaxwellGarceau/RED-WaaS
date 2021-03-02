@@ -262,6 +262,16 @@ require get_template_directory() . '/inc/class-red-template-automation.php';
  */
 require get_template_directory() . '/inc/class-red-login.php';
 
+/**
+ * Image Optimization
+ */
+require get_template_directory() . '/inc/class-red-image-optimization.php';
+
+/**
+ * ACF Custom Validation
+ */
+require get_template_directory() . '/admin/class-red-acf-validation.php';
+
 /******************************************
  * Demo Site Specific
  ******************************************/
@@ -339,8 +349,26 @@ function red_underscores_redirect() {
 }
 add_action( 'template_redirect', 'red_underscores_redirect' );
 
-/* Tech Support Role */
+// /**
+//  * Add Logo Custom Image Sizes
+//  */
+// function red_add_logo_custom_image_sizes() {
+//
+// }
+// add_filter(  );
+
+/**
+ * Tech Support Role
+ */
 function red_add_tech_support_role() {
 	add_role( 'tech-support', 'Tech Support', get_role( 'administrator' )->capabilities );
 }
 add_action( 'init', 'red_add_tech_support_role' );
+
+/**
+ * Continue to resize if original and new image dimensions are the same
+ */
+function red_wp_image_resize_identical_dimensions() {
+	return true;
+}
+add_filter( 'wp_image_resize_identical_dimensions', 'red_wp_image_resize_identical_dimensions' );
