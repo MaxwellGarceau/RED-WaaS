@@ -185,10 +185,6 @@ $myUpdateChecker = Puc_v4_Factory::buildUpdateChecker(
   'red-earth-design'
 );
 
-/**
- * Implement the Custom Header feature.
- */
-
 /******************************************
  * Admin
  ******************************************/
@@ -202,6 +198,11 @@ require get_template_directory() . '/admin/class-red-admin-ui.php';
  * ACF Options Customizations
  */
 require get_template_directory() . '/admin/class-red-acf-options.php';
+
+/**
+* Red User Functions
+*/
+require get_template_directory() . '/admin/class-red-user.php';
 
 /******************************************
  * Theme
@@ -357,13 +358,6 @@ add_action( 'template_redirect', 'red_underscores_redirect' );
 // }
 // add_filter(  );
 
-/**
- * Tech Support Role
- */
-function red_add_tech_support_role() {
-	add_role( 'tech-support', 'Tech Support', get_role( 'administrator' )->capabilities );
-}
-add_action( 'init', 'red_add_tech_support_role' );
 
 /**
  * Continue to resize if original and new image dimensions are the same

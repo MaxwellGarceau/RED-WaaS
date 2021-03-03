@@ -54,9 +54,12 @@ class Red_Admin_UI {
   	    echo "<select name='$tax_slug' id='$tax_slug' class='postform'>";
   	    echo "<option value=''>Show All $tax_name</option>";
   	    foreach ( $terms as $term ) {
-
+          /* Filtering by post status so don't select filter */
+          if ( isset( $_GET['post_status'] ) ) {
+            $selected = '';
+          }
   				/* Check that the category filter is in use */
-  				if ( isset( $_GET['fl-builder-template-category'] ) && ! empty( $_GET['fl-builder-template-category'] ) ) {
+  				else if ( isset( $_GET['fl-builder-template-category'] ) && ! empty( $_GET['fl-builder-template-category'] ) ) {
   					/* Output each select option line, check against the last $_GET to show the current option selected */
   					$selected = $_GET[$tax_slug] == $term->slug ? ' selected="selected"' : '';
   				} else {
@@ -79,7 +82,7 @@ class Red_Admin_UI {
     global $pagenow;
 
     /* If we're navigating to the edit.php fl-theme-layout page and we haven't specified a category default the page to the current template selector category */
-    if ( $pagenow == 'edit.php' && isset( $_GET['post_type'] ) && $_GET['post_type'] == 'fl-theme-layout' && ! isset( $_GET['fl-builder-template-category'] ) ) {
+    if ( $pagenow == 'edit.php' && isset( $_GET['post_type'] ) && $_GET['post_type'] == 'fl-theme-layout' && ! isset( $_GET['fl-builder-template-category'] ) && ! isset( $_GET['post_status'] ) ) {
   		$current_template = get_field( 'template_selector', 'options' );
       wp_redirect( admin_url( 'edit.php?post_type=fl-theme-layout&fl-builder-template-category=' . $current_template ) );
       exit;
