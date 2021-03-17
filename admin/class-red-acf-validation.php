@@ -31,8 +31,8 @@ class Red_ACF_Validation {
    * Make sure logo is at least 412px
    */
   public static function logo_minimum_size( $errors, $file, $attachment, $field, $context ) {
-    if ( $field['name'] == 'site_logo' && $attachment['width'] < self::get_min_logo_width_2x() ) {
-      $errors[] = __( 'Logo must be at least ' . self::get_min_logo_width_2x() . 'px wide.' );
+    if ( $field['name'] == 'site_logo' && $file['width'] < self::get_min_logo_width_2x() ) {
+      $errors[] = __( 'Logo must be at least ' . self::get_min_logo_width_2x() . 'px wide. This logo is ' . $file['width'] . 'px.' );
     }
     return $errors;
   }
