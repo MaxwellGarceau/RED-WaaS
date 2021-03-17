@@ -5,6 +5,7 @@ class Red_Admin_UI {
     add_action( 'restrict_manage_posts', __CLASS__ . '::add_post_filter_to_themer_layouts_admin' );
     add_action( 'admin_init', __CLASS__ . '::default_bb_fl_theme_layouts_edit_page_to_current_template_layouts' );
     add_action( 'admin_enqueue_scripts', __CLASS__ . '::enqueue' );
+    add_action( 'wp_head', array( __CLASS__, 'themer_layout_edit_control' ) );
   }
 
   // https://www.advancedcustomfields.com/resources/acf_add_options_page/
@@ -87,6 +88,72 @@ class Red_Admin_UI {
       wp_redirect( admin_url( 'edit.php?post_type=fl-theme-layout&fl-builder-template-category=' . $current_template ) );
       exit;
     }
+  }
+
+  /**
+   * Prevent users ability to edit a BB page directly if a single themer layout is active for it
+   */
+  public static function themer_layout_edit_control() {
+  	/* Bail early if no one is logged in */
+  	if ( ! is_user_logged_in() ) {
+  		return;
+  	}
+
+  	global $post;
+  	$template = get_field( 'template_selector', 'option' );
+
+  	/* Query themer layouts that are singular, set to this post, and show on this template */
+  	$args = array(
+  		'post_type' => 'fl-theme-layout',
+  		'post_status' => array( 'publish' ),
+  		'posts_per_page' => -1,
+  		'meta_query' => array(
+  			array(
+  				'key' => '_fl_theme_layout_type',
+  				'value' => array( 'singular' ),
+  				'compare' => 'IN',
+  			),
+  			array(
+  				'key' => '_fl_theme_builder_locations',
+  				'value' => $post->ID,
+  				'compare' => 'LIKE'
+  			),
+  			array(
+  				'key' => '_fl_theme_builder_logic',
+  				'value' => $template,
+  				'compare' => 'LIKE'
+  			),
+  		),
+  	);
+  	$singular_themer_layouts_query = new WP_Query( $args );
+
+  	/**
+  	 * If any themer singular layouts are attached to this post, hide the default BB edit controls.
+  	 * Hiding default controls will prevent users from editing page directly instead of assigned layout.
+  	 */
+  	if ( ! empty( $singular_themer_layouts_query->posts ) ) {
+  		ob_start(); ?>
+  		<style id="red-themer-layout-edit-control">
+  			/**
+  			 * Hides the ability to edit current page in beaver builder from the admin toolbar.
+  			 * Prompts user to edit Themer Layouts.
+  			 */
+  			body:not(.fl-theme-layout-template-default) #wpadminbar #wp-admin-bar-fl-theme-builder-frontend-edit-link {
+  				display: none;
+  			}
+  			body:not(.fl-theme-layout-template-default) #wpadminbar #wp-admin-bar-fl-builder-frontend-edit-link > a.ab-item {
+  				pointer-events: none;
+  			}
+  			body:not(.fl-theme-layout-template-default) #wpadminbar #wp-admin-bar-fl-builder-frontend-edit-link {
+  				cursor: pointer !important;
+  			}
+  			body:not(.fl-theme-layout-template-default) #wpadminbar #wp-admin-bar-fl-builder-frontend-edit-link-default {
+  				padding: 0 0 6px;
+  			}
+  		</style>
+  		<?php
+  		echo ob_get_clean();
+  	}
   }
 
 }

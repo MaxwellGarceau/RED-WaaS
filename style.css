@@ -4,7 +4,7 @@ Theme URI: https://redearthdesign.com/
 Author: Red Earth Design
 Author URI: https://redearthdesign.com/
 Description: Description
-Version: 1.0.9
+Version: 1.0.10
 Text Domain: red-earth-design
 Tags:
 */
@@ -1054,19 +1054,3 @@ footer .bbb {
 /*--------------------------------------------------------------
 # Beaver Builder
 --------------------------------------------------------------*/
-/**
- * Hides the ability to edit current page in beaver builder from the admin toolbar.
- * Prompts user to edit Themer Layouts.
- */
-body:not(.fl-theme-layout-template-default) #wpadminbar #wp-admin-bar-fl-theme-builder-frontend-edit-link {
-	display: none;
-}
-body:not(.fl-theme-layout-template-default) #wpadminbar #wp-admin-bar-fl-builder-frontend-edit-link > a.ab-item {
-	pointer-events: none;
-}
-body:not(.fl-theme-layout-template-default) #wpadminbar #wp-admin-bar-fl-builder-frontend-edit-link {
-	cursor: pointer !important;
-}
-body:not(.fl-theme-layout-template-default) #wpadminbar #wp-admin-bar-fl-builder-frontend-edit-link-default {
-	padding: 0 0 6px;
-}

@@ -9,6 +9,7 @@ class Red_Login {
     add_filter( 'login_headerurl', __CLASS__ . '::login_logo_url' );
     add_filter( 'login_headertitle', __CLASS__ . '::login_logo_url_title' );
     add_action( 'login_enqueue_scripts', __CLASS__ . '::login_logo' );
+    add_action( 'login_headertext', array( __CLASS__, 'login_logo_html' ) );
   }
 
   /* Make logo URL go to our site, not wordpress.org */
@@ -21,6 +22,12 @@ class Red_Login {
    return get_bloginfo( 'name' );
   }
 
+  public static function login_logo_html( $login_header_text ) {
+    $site_logo = get_field( 'site_logo', 'options' );
+    $site_logo_url = wp_get_attachment_url( $site_logo );
+    return '<img class="red-login-logo" src="' . $site_logo_url . '" />';
+  }
+
   /* Customize Login Page */
   public static function login_logo() {
     $site_logo = get_field( 'site_logo', 'options' );
@@ -31,11 +38,13 @@ class Red_Login {
       <style type="text/css" id="red-login-styles">
         /* Login Logo */
         body.login div#login h1 a {
-          background-image: url(<?php echo $site_logo_url; ?>);
-          background-size: contain;
-          background-position: center;
-          width: 320px;
-          height: 320px;
+          text-indent: unset;
+          width: auto;
+          height: auto;
+        }
+        body.login div#login h1 img.red-login-logo {
+          width: 100%;
+          object-fit: cover;
         }
       </style>
 

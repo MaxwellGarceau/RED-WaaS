@@ -350,15 +350,6 @@ function red_underscores_redirect() {
 }
 add_action( 'template_redirect', 'red_underscores_redirect' );
 
-// /**
-//  * Add Logo Custom Image Sizes
-//  */
-// function red_add_logo_custom_image_sizes() {
-//
-// }
-// add_filter(  );
-
-
 /**
  * Continue to resize if original and new image dimensions are the same
  */
