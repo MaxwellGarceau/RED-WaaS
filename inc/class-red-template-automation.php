@@ -14,11 +14,42 @@ class Red_Template_Automation {
   	$template_selector_old_value = get_post_meta( $post_id, $field['name'], true );
   	if ( $template_selector_new_value != $template_selector_old_value ) {
 
-  		/* Get all header/footer themer layouts */
+  		/* Get template specific header/footer themer layouts */
   		$args = array(
   			'post_type' => 'fl-theme-layout',
   			'post_status' => array( 'publish', 'draft' ),
   			'posts_per_page' => -1,
+        'fields' => 'ids',
+  			'meta_query' => array(
+  				array(
+  					'key' => '_fl_theme_layout_type',
+  					'value' => array( 'header', 'footer' ),
+  					'compare' => 'IN',
+  				),
+  			),
+        'tax_query' => array(
+          array(
+            'taxonomy' => 'fl-builder-template-category',
+            'field' => 'slug',
+            'terms' => $template_selector_new_value, // Template selectors have the same slug as BB Template Category terms
+            // 'include_children' => false
+          ),
+        ),
+  		);
+  		$template_layouts_query = new WP_Query( $args );
+
+      /* Bail early if no header or footer layouts are assigned to the current template */
+      if ( empty( $template_layouts_query->posts ) ) {
+        return $template_selector_new_value;
+      }
+
+      /* Get all header/footer themer layouts minus template specific */
+  		$args = array(
+  			'post_type' => 'fl-theme-layout',
+  			'post_status' => array( 'publish', 'draft' ),
+  			'posts_per_page' => -1,
+        'fields' => 'ids',
+        'post__not_in' => $template_layouts_query->posts,
   			'meta_query' => array(
   				array(
   					'key' => '_fl_theme_layout_type',
@@ -27,28 +58,23 @@ class Red_Template_Automation {
   				),
   			),
   		);
-  		$header_footer_themer_layouts = new WP_Query( $args );
+  		$non_template_layouts_query = new WP_Query( $args );
 
-  		foreach( $header_footer_themer_layouts->posts as $themer_layout ) {
-  			/* Get term slugs for each layout */
-  			$terms = get_the_terms( $themer_layout, 'fl-builder-template-category' );
-  			$term_slugs = array_map( function( $term ) {
-  				return $term->slug;
-  			}, $terms );
+      /* Unpublish non template header/footer layouts */
+      foreach( $non_template_layouts_query->posts as $themer_layout_id ) {
+        wp_update_post(
+          array(
+          'ID'    =>  $themer_layout_id,
+          'post_status'   =>  'draft',
+          )
+        );
+      }
 
-  			/* If template_selector value is the same as a layouts term slug we activate (publish) the layout */
-  			if ( in_array( $template_selector_new_value, $term_slugs ) ) {
-  				wp_publish_post( $themer_layout->ID );
-  			} else {
-  				/* Otherwise we deactivate (unpublish) the layout */
-  				wp_update_post(
-  					array(
-  					'ID'    =>  $themer_layout->ID,
-  					'post_status'   =>  'draft',
-  					)
-  				);
-  			}
-  		}
+      /* Publish theme specific header/footer layouts */
+      foreach( $template_layouts_query->posts as $themer_layout_id ) {
+		    wp_publish_post( $themer_layout_id );
+      }
+
   	}
 
   	return $template_selector_new_value;
