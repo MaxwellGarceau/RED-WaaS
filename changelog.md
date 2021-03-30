@@ -11,6 +11,10 @@ Tested up to: 5.4.1
 
 ## Changelog
 
+#### 1.0.13
+-Removed validation on logo image sizes.
+-Images set as the logo with "@2x" in their file name will display at half size to support retina images. Any other logo file will display at full size.
+
 #### 1.0.12
 -Name change to RED Waasabi
 

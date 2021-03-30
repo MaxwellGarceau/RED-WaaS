@@ -4,7 +4,7 @@ class Red_ACF_Validation {
   public static $min_logo_width_2x = 412;
 
   public static function init() {
-    add_filter( 'acf/validate_attachment', array( __CLASS__, 'logo_minimum_size' ), 10, 5 );
+    // add_filter( 'acf/validate_attachment', array( __CLASS__, 'logo_minimum_size' ), 10, 5 ); // Removed validation for now
   }
 
   public static function get_min_logo_width_2x() {

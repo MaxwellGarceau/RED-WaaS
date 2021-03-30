@@ -220,7 +220,13 @@ class Red_Connection_Fields {
   public static function red_logo_width() {
     $site_logo_id = get_field( 'site_logo', 'options' );
     $attachement = wp_get_attachment_metadata( $site_logo_id );
-    $width = $attachement['width'] / 2; // Divide by 2 because logo is uploaded @2x
+    $width = $attachement['width'];
+
+    /* If @2x image then divide width in 2 */
+    if ( stripos( $attachement['file'], '@2x' ) ) {
+      $width = $attachement['width'] / 2;
+    }
+
     return (string) $width;
   }
 
