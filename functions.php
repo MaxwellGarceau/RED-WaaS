@@ -180,9 +180,9 @@ add_action( 'wp_enqueue_scripts', 'red_underscores_scripts' );
  */
 require get_template_directory() . '/inc/plugin-update-checker-4.5.1/plugin-update-checker.php';
 $myUpdateChecker = Puc_v4_Factory::buildUpdateChecker(
-  'https://redearthdesign.com/wp-update-server/?action=get_metadata&slug=red-earth-design',
+  'https://redearthdesign.com/wp-update-server/?action=get_metadata&slug=red-waasabi',
   __FILE__, // Full path to the main plugin file or functions.php.
-  'red-earth-design'
+  'red-waasabi'
 );
 
 /******************************************

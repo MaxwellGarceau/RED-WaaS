@@ -41,6 +41,7 @@ class Red_Login {
           text-indent: unset;
           width: auto;
           height: auto;
+          background-image: none;
         }
         body.login div#login h1 img.red-login-logo {
           width: 100%;
