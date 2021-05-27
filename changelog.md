@@ -11,6 +11,9 @@ Tested up to: 5.4.1
 
 ## Changelog
 
+#### 1.0.15
+-Removed default WP logo from /wp-login.php page
+
 #### 1.0.14
 -Added theme settings for login page background and text color
 -Set up automated text hover colors for login page dependent on background color
