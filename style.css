@@ -4,7 +4,7 @@ Theme URI: https://redearthdesign.com/
 Author: Red Earth Design
 Author URI: https://redearthdesign.com/
 Description: WaaS theme
-Version: 1.0.15
+Version: 1.0.16
 Text Domain: red-waasabi
 Tags:
 */
@@ -276,10 +276,17 @@ textarea {
 }
 
 /* Transitions */
-button,
-a,
+button:not(.fl-button),
+a:not(.fl-button) {
+	transition: background .2s ease-in, color .2s ease-in, border .2s ease-in;
+}
+
 .fl-button {
-	transition: background .25s ease-in, color .1s ease-in, border .25s ease-in;
+	transition: background .2s ease-in, border .2s ease-in;
+}
+.fl-button-text,
+.fl-button-icon {
+	transition: color .2s ease-in;
 }
 
 h1,

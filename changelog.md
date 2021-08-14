@@ -11,6 +11,9 @@ Tested up to: 5.4.1
 
 ## Changelog
 
+#### 1.0.16
+-Changed defaults on a, button, .fl-button, and .fl-button-text transition settings to support background, color, and border transition across several button configurations
+
 #### 1.0.15
 -Removed default WP logo from /wp-login.php page
 
