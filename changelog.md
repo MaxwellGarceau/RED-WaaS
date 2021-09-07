@@ -11,6 +11,10 @@ Tested up to: 5.4.1
 
 ## Changelog
 
+#### 1.0.17
+-Added CSS class ".p-no-bottom-margin-last-child" that removes bottom margin from the last child <p> when applied to a parent container
+-Added a back to the top arrow
+
 #### 1.0.16
 -Changed defaults on a, button, .fl-button, and .fl-button-text transition settings to support background, color, and border transition across several button configurations
 

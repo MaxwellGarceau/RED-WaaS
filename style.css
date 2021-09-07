@@ -4,7 +4,7 @@ Theme URI: https://redearthdesign.com/
 Author: Red Earth Design
 Author URI: https://redearthdesign.com/
 Description: WaaS theme
-Version: 1.0.16
+Version: 1.0.17
 Text Domain: red-waasabi
 Tags:
 */
@@ -23,6 +23,7 @@ Tags:
 # Alignments
 # Clearings
 # Widgets
+	## Return To Top Arrow
 # Content
     ## Posts and pages
 	## Ninja Tables
@@ -813,6 +814,45 @@ a:active {
 }
 
 /*--------------------------------------------------------------
+ ## Return To Top Arrow
+ # https://codepen.io/rdallaire/pen/apoyx
+ --------------------------------------------------------------*/
+#return-to-top {
+  position: fixed;
+	opacity: 0;
+	color: #fff;
+  bottom: 20px;
+  right: 20px;
+  background-color: rgba(0, 0, 0, .7);
+  width: 50px;
+  height: 50px;
+	font-size: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  -webkit-border-radius: 35px;
+  -moz-border-radius: 35px;
+  border-radius: 35px;
+  -webkit-transition: all 0.3s linear;
+  -moz-transition: all 0.3s ease;
+  -ms-transition: all 0.3s ease;
+  -o-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+  z-index: 1041;
+}
+
+#return-to-top:hover,
+#return-to-top:focus {
+	background-color: rgba(0, 0, 0, 1);
+}
+
+#return-to-top:active,
+#return-to-top:focus {
+  outline: none;
+}
+
+/*--------------------------------------------------------------
 # Content
 --------------------------------------------------------------*/
 .site-content {
@@ -1049,6 +1089,9 @@ footer .bbb {
 }
 .p-no-top-margin-first-child p:first-child {
 	margin-top: 0;
+}
+.p-no-bottom-margin-last-child p:last-child {
+	margin-bottom: 0;
 }
 
 @media (max-width: 767px) {

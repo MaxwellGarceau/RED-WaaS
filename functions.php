@@ -166,9 +166,17 @@ function red_underscores_scripts() {
 	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
 		wp_enqueue_script( 'comment-reply' );
 	}
+
+	wp_enqueue_script(
+		'return-to-top-arrow',
+		get_template_directory_uri() . '/js/return-to-top-arrow.js',
+		array( 'jquery' ),
+		filemtime( get_template_directory() . '/js/return-to-top-arrow.js' )
+	);
+
 	// wp_enqueue_script(
 	// 	'functions',
-	// 	get_stylesheet_directory_uri() . '/js/functions.js',
+	// 	get_template_directory_uri() . '/js/functions.js',
 	// 	array( 'jquery' )
 	// );
 	// wp_enqueue_script( 'retina_js', get_template_directory_uri() . '/js/retina.min.js', '', '', true );
@@ -295,6 +303,12 @@ require get_template_directory() . '/inc/favicon.php';
  * Social Icons
  */
 require get_template_directory() . '/inc/social-icons.php';
+
+/**
+ * Return to Top Arrow
+ */
+require get_template_directory() . '/inc/return-to-top-arrow.php';
+add_action( 'wp_footer', 'red_display_return_to_top_arrow' );
 
 
 
