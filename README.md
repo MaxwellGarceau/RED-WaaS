@@ -1,1 +1,1 @@
-Currently in development. An automated WaaS theme for non profits.
+An automated WaaS theme for non profits. Archived.
